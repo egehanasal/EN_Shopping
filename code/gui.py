@@ -118,6 +118,7 @@ def disp_label(product_name):
     return False
 
 
+# Adds the given product to the basket
 def add_to_basket(product_name):
     c.add_to_basket(product_name)
 
