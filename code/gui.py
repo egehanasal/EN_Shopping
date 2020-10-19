@@ -1,5 +1,6 @@
 from product import Product
 from manager import Manager
+from customer import Customer
 import tkinter as tk
 from tkinter import *
 
@@ -14,6 +15,7 @@ canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
 canvas.pack()
 
 m = Manager()
+c = Customer("ege", "asal", 300)
 
 
 # Swaps to the given frame
@@ -96,12 +98,16 @@ def add_product(product_name, price):
 def show_info(product_name):
     place = disp_label(product_name)
     frame_new = tk.Frame(frame_4, bg="pink")
-    frame_new.place(relx=0.5, rely=0.15+(place/10), relheight=0.1, relwidth=0.1)
+    frame_new.place(relx=0.5, rely=0.15+(place/10), relheight=0.1, relwidth=0.2)
     for i in range(len(Product.products)):
         if product_name == Product.products[i].name:
             info_label = tk.Label(frame_new, text="Stock: " + str(Product.products[i].stock)
                                                   + "\nPrice: " + str(Product.products[i].price))
-            info_label.place(relx=0, rely=0, relheight=1, relwidth=1)
+            info_label.place(relx=0, rely=0, relheight=1, relwidth=0.5)
+
+            add_to_basket_button = tk.Button(frame_new, bg="green", text="Add to\n Basket",
+                                             command=lambda: add_to_basket(Product.products[place-1].name))
+            add_to_basket_button.place(relx=0.5, rely=0, relheight=1, relwidth=0.5)
 
 
 # Method that finds where to put the info of the product button to screen.
@@ -110,6 +116,10 @@ def disp_label(product_name):
         if product_name == Product.products[i].name:
             return Product.products[i].counter
     return False
+
+
+def add_to_basket(product_name):
+    c.add_to_basket(product_name)
 
 
 # Frame 1: Exists on the entrance of the program, at the top
