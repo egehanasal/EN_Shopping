@@ -1,6 +1,7 @@
 from product import Product
 from manager import Manager
 from customer import Customer
+from basket import Basket
 import tkinter as tk
 from tkinter import *
 
@@ -91,14 +92,15 @@ def add_product(product_name, price):
     m.add_product(product_name, price)
     new_button = tk.Button(frame_4, text=product_name, bg="pink", command=lambda: show_info(text_on_button))
     text_on_button = new_button['text']
-    new_button.place(relx=0.4, rely=0.15 + (Product.counter / 10), relheight=0.1, relwidth=0.1)
+    new_button.place(relx=0.35, rely=0.15 + (Product.counter / 10), relheight=0.1, relwidth=0.1)
 
 
 # Method that displays the info (stock and price) of the product
 def show_info(product_name):
+    global place
     place = disp_label(product_name)
     frame_new = tk.Frame(frame_4, bg="pink")
-    frame_new.place(relx=0.5, rely=0.15+(place/10), relheight=0.1, relwidth=0.2)
+    frame_new.place(relx=0.45, rely=0.15+(place/10), relheight=0.1, relwidth=0.2)
     for i in range(len(Product.products)):
         if product_name == Product.products[i].name:
             info_label = tk.Label(frame_new, text="Stock: " + str(Product.products[i].stock)
@@ -118,9 +120,20 @@ def disp_label(product_name):
     return False
 
 
-# Adds the given product to the basket
+# Method that adds the given product to the basket
 def add_to_basket(product_name):
     c.add_to_basket(product_name)
+
+
+# Method that shows the basket
+def show_basket():
+    swap(frame_7)
+    if len(Basket.basket) > 0:
+        for i in range(len(Basket.basket)):
+            frame_b = tk.Frame(frame_7, bg="pink")
+            frame_b.place(relx=0.45, rely=0.15 + (i/10), relheight=0.1, relwidth=0.1)
+            basket_product_label = tk.Label(frame_b, text=Basket.basket[i].name)
+            basket_product_label.place(relx=0, rely=0, relheight=1, relwidth=1)
 
 
 # Frame 1: Exists on the entrance of the program, at the top
@@ -142,7 +155,7 @@ button_account.place(relx=0.1, rely=0.45, relheight=0.3, relwidth=0.2)
 button_products = tk.Button(frame_1, text="Products", bg="#b3dd3b", command=lambda: swap(frame_4))
 button_products.place(relx=0.35, rely=0.45, relheight=0.3, relwidth=0.3)
 
-button_basket = tk.Button(frame_1, text="Basket", bg="#99bd34")
+button_basket = tk.Button(frame_1, text="Basket", bg="#99bd34", command=lambda: show_basket())
 button_basket.place(relx=0.70, rely=0.45, relheight=0.3, relwidth=0.2)
 
 button_add_product = tk.Button(frame_1, text="Add Product", bg="yellow", fg="black", command=lambda: swap(frame_5))
@@ -199,9 +212,14 @@ frame_6 = tk.Frame(root)
 frame_6.place(relx=0.35, rely=0.32, relheight=0.075, relwidth=0.3)
 
 
-# Frame 7: Occurs on the screen after search button is clicked
-frame_7 = tk.Frame(root)
-frame_7.place(relx=0.3, rely=0.2, relheight=0.4, relwidth=0.1)
+# Frame 7: Occurs on the screen after Basket button is clicked
+frame_7 = tk.Frame(root, bg="#c5251c")
+frame_7.place(relx=0, rely=0, relheight=1, relwidth=1)
+
+button_back_from_basket = tk.Button(frame_7, text="<<Back<<", bg="#1d2333",fg="#0068ad",
+                        command=lambda: swap_back())
+button_back_from_basket.place(relx=0, rely=0, relheight=0.1, relwidth=0.1)
+
 
 global entry_2
 entry_2 = tk.Entry(frame_6, text="Enter products price", bg="grey")
