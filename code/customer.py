@@ -57,8 +57,7 @@ class Customer:
         for i in range(len(Product.products)):
             if Product.products[i].name == product_name:
                 Basket.basket.append(Product.products[i])
-                Basket.total_price += Product.products[i].price
-                print(product_name, "added to basket.")
+                Basket.total_price += int(Product.products[i].price)
                 is_valid = True
                 break
         if not is_valid:
