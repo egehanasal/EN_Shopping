@@ -35,7 +35,6 @@ def swap_back():
 def add_name():
     global product_name
     product_name = entry_1.get()
-    #sdadssdsd
     if check_entry(product_name) and not product_name.isdigit():
         entry_1.delete(0, END)
         swap(frame_6)
