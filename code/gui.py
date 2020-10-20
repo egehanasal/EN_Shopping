@@ -108,7 +108,7 @@ def show_info(product_name):
             info_label.place(relx=0, rely=0, relheight=1, relwidth=0.5)
 
             add_to_basket_button = tk.Button(frame_new, bg="green", text="Add to\n Basket",
-                                             command=lambda: add_to_basket(Product.products[place-1].name))
+                                             command=lambda: add_to_basket(product_name))
             add_to_basket_button.place(relx=0.5, rely=0, relheight=1, relwidth=0.5)
 
 
