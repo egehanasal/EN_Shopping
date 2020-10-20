@@ -128,12 +128,22 @@ def add_to_basket(product_name):
 # Method that shows the basket
 def show_basket():
     swap(frame_7)
+    global frames_on_basket
+    frames_on_basket = list()
     if len(Basket.basket) > 0:
         for i in range(len(Basket.basket)):
             frame_b = tk.Frame(frame_7, bg="pink")
             frame_b.place(relx=0.45, rely=0.15 + (i/10), relheight=0.1, relwidth=0.1)
+            frames_on_basket.append(frame_b)
             basket_product_label = tk.Label(frame_b, text=Basket.basket[i].name, bg="pink")
             basket_product_label.place(relx=0, rely=0, relheight=1, relwidth=1)
+
+
+def buy_basket():
+    c.buy_products()
+    print(Basket.basket)
+    for i in range(len(frames_on_basket)):
+        frames_on_basket[i].destroy()
 
 
 # Frame 1: Exists on the entrance of the program, at the top
@@ -219,7 +229,7 @@ frame_7.place(relx=0, rely=0, relheight=1, relwidth=1)
 button_back_from_basket = tk.Button(frame_7, text="<<Back<<", bg="#1d2333",fg="#0068ad", command=lambda: swap_back())
 button_back_from_basket.place(relx=0, rely=0, relheight=0.1, relwidth=0.1)
 
-buy_basket_button = tk.Button(frame_7, text=" Buy\nBasket", bg="yellow")
+buy_basket_button = tk.Button(frame_7, text=" Buy\nBasket", bg="yellow", command=lambda: buy_basket())
 buy_basket_button.place(relx=0.9, rely=0, relheight=0.1, relwidth=0.1)
 
 
