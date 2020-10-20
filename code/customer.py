@@ -63,10 +63,13 @@ class Customer:
         if not is_valid:
             print("Invalid Product...")
 
-    def delete_from_basket(self, product_name):
-        for i in range(len(Basket.basket)):
-            if Basket.basket[i].name == product_name:
-                Basket.basket.pop(i)
+    def delete_products(self):
+        for i in range(len(Product.products)):
+            for j in range(len(Basket.basket)):
+                print("i", i)
+                print("j", j)
+                if Product.products[i-1] == Basket.basket[j-1]:
+                    Product.products.pop(0)
 
     def empty_basket(self):
         Basket.basket.clear()
@@ -89,6 +92,7 @@ class Customer:
                 self.increase_product_counter()
                 self.increase_flus()
                 self.upgrade_membership()
+                self.delete_products()
                 self.empty_basket()
 
             else:
