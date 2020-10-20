@@ -19,12 +19,12 @@ m = Manager()
 c = Customer("ege", "asal", 300)
 
 
-# Swaps to the given frame
+# Swaps to the given frame.
 def swap(frame):
     frame.tkraise()
 
 
-# Swaps to the entrance
+# Swaps to the entrance.
 def swap_back():
     frame_1.tkraise()
     frame_2.tkraise()
@@ -51,7 +51,7 @@ def check_entry(entry):
     return False
 
 
-# Method that creates a new window when user enters an invalid input
+# Method that creates a new window when user enters an invalid input.
 def raise_error():
     error_window = tk.Toplevel()
     error_window.geometry("150x75")
@@ -59,7 +59,15 @@ def raise_error():
     error_label.place(relx=0, rely=0, relheight=1, relwidth=1)
 
 
-# Method that runs when "add" button for entering the price of the product is clicked
+# Method that creates a new window if the product that customer wants to buy is sold out.
+def sold_out():
+    error_window = tk.Toplevel()
+    error_window.geometry("150x75")
+    error_label = tk.Label(error_window, text="Sold Out", bg="red", fg="white")
+    error_label.place(relx=0, rely=0, relheight=1, relwidth=1)
+
+
+# Method that runs when "add" button for entering the price of the product is clicked.
 def add_price(product_name):
     global price
     price = entry_2.get()
@@ -73,7 +81,7 @@ def add_price(product_name):
         entry_2.delete(0, END)
 
 
-# Returns true if the product name is same with another product in product list while their prices are different
+# Returns true if the product name is same with another product in product list while their prices are different.
 def is_same(product_name, price):
     for product in Product.products:
         if product.name == product_name and product.price == price:
@@ -82,7 +90,7 @@ def is_same(product_name, price):
     return False
 
 
-# Creates the product and adds it to the product list
+# Creates the product and adds it to the product list.
 def add_product(product_name, price):
     if len(Product.products) > 0:
         for i in range(len(Product.products)):
@@ -95,21 +103,25 @@ def add_product(product_name, price):
     new_button.place(relx=0.35, rely=0.15 + (Product.counter / 10), relheight=0.1, relwidth=0.1)
 
 
-# Method that displays the info (stock and price) of the product
+# Method that displays the info (stock and price) of the product.
 def show_info(product_name):
     global place
     place = disp_label(product_name)
-    frame_new = tk.Frame(frame_4, bg="pink")
+    global frames_on_products
+    frames_on_products = list()
+    frame_new = tk.Frame(frame_4, bg="#73c4fa")
     frame_new.place(relx=0.45, rely=0.15+(place/10), relheight=0.1, relwidth=0.2)
+    frames_on_products.append(frame_new)
     for i in range(len(Product.products)):
         if product_name == Product.products[i].name:
-            info_label = tk.Label(frame_new, text="Stock: " + str(Product.products[i].stock)
+            info_label = tk.Label(frame_new, bg="#73c4fa", fg="white", text="Stock: " + str(Product.products[i].stock)
                                                   + "\nPrice: " + str(Product.products[i].price))
             info_label.place(relx=0, rely=0, relheight=1, relwidth=0.5)
 
-            add_to_basket_button = tk.Button(frame_new, bg="green", text="Add to\n Basket",
+            if Product.products[i].stock > 0:
+                add_to_basket_button = tk.Button(frame_new, bg="#73c4fa", fg="white", text="Add to\n Basket",
                                              command=lambda: add_to_basket(product_name))
-            add_to_basket_button.place(relx=0.5, rely=0, relheight=1, relwidth=0.5)
+                add_to_basket_button.place(relx=0.5, rely=0, relheight=1, relwidth=0.5)
 
 
 # Method that finds where to put the info of the product button to screen.
@@ -120,12 +132,20 @@ def disp_label(product_name):
     return False
 
 
-# Method that adds the given product to the basket
+# Method that adds the given product to the basket.
 def add_to_basket(product_name):
-    c.add_to_basket(product_name)
+    is_exist = False
+    for p in Product.products:
+        if p.name == product_name:
+            is_exist = True
+            break
+    if is_exist:
+        c.add_to_basket(product_name)
+    else:
+        sold_out()
 
 
-# Method that shows the basket
+# Method that shows the basket.
 def show_basket():
     swap(frame_7)
     global frames_on_basket
@@ -139,6 +159,7 @@ def show_basket():
             basket_product_label.place(relx=0, rely=0, relheight=1, relwidth=1)
 
 
+# Method that allows the customer to buy the products that are added to the basket.
 def buy_basket():
     c.buy_products()
     print(Basket.basket)
@@ -146,7 +167,7 @@ def buy_basket():
         frames_on_basket[i].destroy()
 
 
-# Frame 1: Exists on the entrance of the program, at the top
+# Frame 1: Exists on the entrance of the program, at the top.
 frame_1 = tk.Frame(root, bg="#718b28")
 frame_1.place(relx=0, rely=0, relheight=0.4, relwidth=1)
 
@@ -174,7 +195,7 @@ button_add_product.place(relx=0.35, rely=0.8, relheight=0.18, relwidth=0.3)
 enter_product_label = tk.Label(frame_1, text="Enter product name", bg="white", fg="black")
 
 
-# Frame 2: Exists on the entrance of the program, in the middle of the screen
+# Frame 2: Exists on the entrance of the program, in the middle of the screen.
 frame_2 = tk.Frame(root, bg="#0f9960")
 frame_2.place(relx=0, rely=0.4, relheight=0.3, relwidth=1)
 
@@ -182,7 +203,7 @@ label_2 = tk.Label(frame_2, text="Latest Products!", bg="#0f606b", fg="white", f
 label_2.place(relx=0.2, rely=0, relheight=0.3, relwidth=0.6)
 
 
-# Frame 3: Exists on the entrance of the program, at the bottom
+# Frame 3: Exists on the entrance of the program, at the bottom.
 frame_3 = tk.Frame(root, bg="#74106b")
 frame_3.place(relx=0, rely=0.7, relheight=0.3, relwidth=1)
 
@@ -190,7 +211,7 @@ label_3 = tk.Label(frame_3, text="Most saled product!", bg="#74106b", fg="white"
 label_3.place(relx=0.2, rely=0, relheight=0.3, relwidth=0.6)
 
 
-# Frame 4: Appears on the screen after the PRODUCTS button is clicked
+# Frame 4: Appears on the screen after the PRODUCTS button is clicked.
 frame_4 = tk.Frame(root, bg="#ff9f77")
 frame_4.place(relx=0, rely=0, relheight=1, relwidth=1)
 
@@ -202,7 +223,7 @@ button_back = tk.Button(frame_4, text="<<Back<<", bg="#1d2333",fg="#0068ad",
 button_back.place(relx=0, rely=0, relheight=0.1, relwidth=0.1)
 
 
-# Frame 5: Occurs on the screen after Add Product button is clicked, contains add_product_name
+# Frame 5: Occurs on the screen after Add Product button is clicked, contains add_product_name.
 frame_5 = tk.Frame(root)
 frame_5.place(relx=0.35, rely=0.32, relheight=0.075, relwidth=0.3)
 
@@ -217,12 +238,12 @@ add_name_button = tk.Button(frame_5, text="add", bg="purple", fg="black", comman
 add_name_button.place(relx=0.85, rely=0, relheight=1, relwidth=0.15)
 
 
-# Frame 6: Occurs on the screen after Add Product button is clicked, contains add_product_price
+# Frame 6: Occurs on the screen after Add Product button is clicked, contains add_product_price.
 frame_6 = tk.Frame(root)
 frame_6.place(relx=0.35, rely=0.32, relheight=0.075, relwidth=0.3)
 
 
-# Frame 7: Occurs on the screen after Basket button is clicked
+# Frame 7: Occurs on the screen after Basket button is clicked.
 frame_7 = tk.Frame(root, bg="#c5251c")
 frame_7.place(relx=0, rely=0, relheight=1, relwidth=1)
 
