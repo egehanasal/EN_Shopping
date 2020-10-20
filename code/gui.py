@@ -132,7 +132,7 @@ def show_basket():
         for i in range(len(Basket.basket)):
             frame_b = tk.Frame(frame_7, bg="pink")
             frame_b.place(relx=0.45, rely=0.15 + (i/10), relheight=0.1, relwidth=0.1)
-            basket_product_label = tk.Label(frame_b, text=Basket.basket[i].name)
+            basket_product_label = tk.Label(frame_b, text=Basket.basket[i].name, bg="pink")
             basket_product_label.place(relx=0, rely=0, relheight=1, relwidth=1)
 
 
@@ -216,9 +216,11 @@ frame_6.place(relx=0.35, rely=0.32, relheight=0.075, relwidth=0.3)
 frame_7 = tk.Frame(root, bg="#c5251c")
 frame_7.place(relx=0, rely=0, relheight=1, relwidth=1)
 
-button_back_from_basket = tk.Button(frame_7, text="<<Back<<", bg="#1d2333",fg="#0068ad",
-                        command=lambda: swap_back())
+button_back_from_basket = tk.Button(frame_7, text="<<Back<<", bg="#1d2333",fg="#0068ad", command=lambda: swap_back())
 button_back_from_basket.place(relx=0, rely=0, relheight=0.1, relwidth=0.1)
+
+buy_basket_button = tk.Button(frame_7, text=" Buy\nBasket", bg="yellow")
+buy_basket_button.place(relx=0.9, rely=0, relheight=0.1, relwidth=0.1)
 
 
 global entry_2
