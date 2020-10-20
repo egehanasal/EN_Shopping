@@ -18,20 +18,24 @@ class Customer:
         self.customers.append(self)
         self.product_counter = 0
 
+    # Method that upgrades the membership by checking how many products that the customer bought.
     def upgrade_membership(self):
         if self.membership == "bronze" and self.product_counter == 4:
             self.membership = "silver"
         elif self.membership == "silver" and self.product_counter == 9:
             self.membership = "gold"
 
+    # Method that increases the product counter.
     def increase_product_counter(self):
         for i in range(len(Basket.basket)):
             self.product_counter += 1
 
+    # Returns the number of customers.
     @classmethod
     def num_of_customers(cls):
         return len(cls.customers)
 
+    # Method that sets discount by checking the membership of the customer.
     def set_discount(self):
         discount = 0
         if self.membership == "bronze":
@@ -42,43 +46,46 @@ class Customer:
             discount = 20
         return discount
 
+    # Method that fixes the 'flus' to 20 after it reached to 30.
     def fix_flus(self):
         if self.flus == 30:
             self.flus = 20
             self.is_fixed = True
 
+    # Method that increases the 'flus' if it is not fixed.
     def increase_flus(self):
         self.fix_flus()
         if not self.is_fixed:
             self.flus += 5
 
+    # Method that adds the product to the basket.
     def add_to_basket(self, product_name):
         is_valid = False
         for i in range(len(Product.products)):
             if Product.products[i].name == product_name:
                 Basket.basket.append(Product.products[i])
                 Basket.total_price += int(Product.products[i].price)
-                is_valid = True
                 break
-        if not is_valid:
-            print("Invalid Product...")
 
+    # Method that delete the products from the products list after they are sold.
     def delete_products(self):
         for i in range(len(Product.products)):
             for j in range(len(Basket.basket)):
-                print("i", i)
-                print("j", j)
                 if Product.products[i-1] == Basket.basket[j-1]:
                     Product.products.pop(0)
 
+    # Method that clears the basket and sets its price to 0.
     def empty_basket(self):
         Basket.basket.clear()
         Basket.total_price = 0
 
+    # Method that adds the customer to the shopped customers list if customer bought any product from the store.
     def add_to_shopped_customers(self):
         if self not in Customer.shopped_customers:
             Customer.shopped_customers.append(self)
 
+    # Method that allows the customer to buy products.
+    # This method also does the additional operations after the purchase process.
     def buy_products(self):
         if len(Basket.basket) != 0:
             discount = self.set_discount()
