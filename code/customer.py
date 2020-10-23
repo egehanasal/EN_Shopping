@@ -69,10 +69,17 @@ class Customer:
 
     # Method that delete the products from the products list after they are sold.
     def delete_products(self):
-        for i in range(len(Product.products)):
-            for j in range(len(Basket.basket)):
-                if Product.products[i-1] == Basket.basket[j-1]:
-                    Product.products.pop(0)
+        temporary_list = list()
+        print(Product.products)
+        print(Product.products[0].name)
+        for p in Product.products:
+            if p not in Basket.basket:
+                temporary_list.append(p)
+        for p in Basket.basket:
+            if p.stock > 1:
+                p.stock -= 1
+                temporary_list.append(p)
+        Product.products = temporary_list
 
     # Method that clears the basket and sets its price to 0.
     def empty_basket(self):
