@@ -70,8 +70,6 @@ class Customer:
     # Method that delete the products from the products list after they are sold.
     def delete_products(self):
         temporary_list = list()
-        print(Product.products)
-        print(Product.products[0].name)
         for p in Product.products:
             if p not in Basket.basket:
                 temporary_list.append(p)
