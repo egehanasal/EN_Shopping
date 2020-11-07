@@ -166,7 +166,6 @@ def buy_basket():
     if not Basket.basket:
         for i in range(len(frames_on_basket)):
             frames_on_basket[i].destroy()
-            print(frames_on_basket[i])
 
 
 # Frame 1: Exists on the entrance of the program, at the top.
