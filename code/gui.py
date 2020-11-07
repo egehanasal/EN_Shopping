@@ -140,16 +140,16 @@ def add_to_basket(product_name):
             is_exist = True
             break
     if is_exist:
-        c.add_to_basket(product_name)
+        c.add_basket(product_name)
     else:
         sold_out()
 
+global frames_on_basket
+frames_on_basket = list()
 
 # Method that shows the basket.
 def show_basket():
     swap(frame_7)
-    global frames_on_basket
-    frames_on_basket = list()
     if len(Basket.basket) > 0:
         for i in range(len(Basket.basket)):
             frame_b = tk.Frame(frame_7, bg="pink")
@@ -163,8 +163,10 @@ def show_basket():
 def buy_basket():
     c.buy_products()
     print(Basket.basket)
-    for i in range(len(frames_on_basket)):
-        frames_on_basket[i].destroy()
+    if not Basket.basket:
+        for i in range(len(frames_on_basket)):
+            frames_on_basket[i].destroy()
+            print(frames_on_basket[i])
 
 
 # Frame 1: Exists on the entrance of the program, at the top.
