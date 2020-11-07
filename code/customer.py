@@ -60,7 +60,6 @@ class Customer:
 
     # Method that adds the product to the basket.
     def add_basket(self, product_name):
-        is_valid = False
         for i in range(len(Product.products)):
             if Product.products[i].name == product_name:
                 Basket.basket.append(Product.products[i])
