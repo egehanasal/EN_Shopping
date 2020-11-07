@@ -59,7 +59,7 @@ class Customer:
             self.flus += 5
 
     # Method that adds the product to the basket.
-    def add_to_basket(self, product_name):
+    def add_basket(self, product_name):
         is_valid = False
         for i in range(len(Product.products)):
             if Product.products[i].name == product_name:
@@ -74,7 +74,7 @@ class Customer:
             if p not in Basket.basket:
                 temporary_list.append(p)
         for p in Basket.basket:
-            if p.stock > 1:
+            if p.stock > 0:
                 p.stock -= 1
                 temporary_list.append(p)
         Product.products = temporary_list
